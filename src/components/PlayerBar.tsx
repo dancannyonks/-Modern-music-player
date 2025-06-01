@@ -19,59 +19,62 @@ const PlayerBar = () => {
   }, []);
 
   return (
-    <div ref={playerRef} className="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-4 py-3">
-      <div className="flex items-center justify-between">
+    <div 
+      ref={playerRef} 
+      className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-xl border-t border-white/10 px-4 py-2 z-50"
+    >
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Current Track Info */}
-        <div className="flex items-center space-x-4 min-w-0 w-1/4">
-          <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md flex-shrink-0 animate-pulse-glow"></div>
+        <div className="flex items-center space-x-3 min-w-0 w-1/4">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md flex-shrink-0"></div>
           <div className="min-w-0">
-            <h4 className="text-white font-medium truncate">Sample Song</h4>
-            <p className="text-zinc-400 text-sm truncate">Sample Artist</p>
+            <h4 className="text-white font-medium text-sm truncate">Sample Song</h4>
+            <p className="text-zinc-400 text-xs truncate">Sample Artist</p>
           </div>
-          <Heart className="w-5 h-5 text-zinc-400 hover:text-spotify-green cursor-pointer transition-colors" />
+          <Heart className="w-4 h-4 text-zinc-400 hover:text-pink-500 cursor-pointer transition-colors flex-shrink-0" />
         </div>
 
         {/* Player Controls */}
-        <div className="flex flex-col items-center space-y-2 w-2/4 max-w-md">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col items-center space-y-1 w-2/4 max-w-md">
+          <div className="flex items-center space-x-3">
             <Shuffle className="w-4 h-4 text-zinc-400 hover:text-white cursor-pointer transition-colors" />
-            <SkipBack className="w-5 h-5 text-zinc-400 hover:text-white cursor-pointer transition-colors" />
+            <SkipBack className="w-4 h-4 text-zinc-400 hover:text-white cursor-pointer transition-colors" />
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="w-8 h-8 bg-white rounded-full flex items-center justify-center hover:scale-105 transition-transform"
+              className="w-7 h-7 bg-white rounded-full flex items-center justify-center hover:scale-105 transition-transform"
             >
               {isPlaying ? (
-                <Pause className="w-4 h-4 text-black ml-0.5" />
+                <Pause className="w-3 h-3 text-black" />
               ) : (
-                <Play className="w-4 h-4 text-black ml-0.5" />
+                <Play className="w-3 h-3 text-black ml-0.5" />
               )}
             </button>
-            <SkipForward className="w-5 h-5 text-zinc-400 hover:text-white cursor-pointer transition-colors" />
+            <SkipForward className="w-4 h-4 text-zinc-400 hover:text-white cursor-pointer transition-colors" />
             <Repeat className="w-4 h-4 text-zinc-400 hover:text-white cursor-pointer transition-colors" />
           </div>
 
           {/* Progress Bar */}
           <div className="flex items-center space-x-2 w-full">
-            <span className="text-xs text-zinc-400">1:23</span>
+            <span className="text-xs text-zinc-400 min-w-[32px]">1:23</span>
             <div className="flex-1 group">
-              <div className="progress-bar">
+              <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer">
                 <div 
-                  className="progress-fill group-hover:bg-spotify-green"
+                  className="h-full bg-white transition-all duration-150 hover:bg-pink-500"
                   style={{ width: `${progress}%` }}
                 ></div>
               </div>
             </div>
-            <span className="text-xs text-zinc-400">3:45</span>
+            <span className="text-xs text-zinc-400 min-w-[32px]">3:45</span>
           </div>
         </div>
 
         {/* Volume Control */}
         <div className="flex items-center space-x-2 w-1/4 justify-end">
           <Volume2 className="w-4 h-4 text-zinc-400" />
-          <div className="w-24 group">
-            <div className="progress-bar">
+          <div className="w-20 group">
+            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer">
               <div 
-                className="progress-fill group-hover:bg-spotify-green"
+                className="h-full bg-white transition-all duration-150 hover:bg-pink-500"
                 style={{ width: `${volume}%` }}
               ></div>
             </div>
