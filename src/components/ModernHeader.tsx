@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Search, Bell, User, Music, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import ModernLogo from './ModernLogo';
 
 const ModernHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,24 +11,17 @@ const ModernHeader = () => {
   const navigation = [
     { name: 'Home', href: '/', current: location.pathname === '/' },
     { name: 'Search', href: '/search', current: location.pathname === '/search' },
+    { name: 'Categories', href: '/categories', current: location.pathname === '/categories' },
     { name: 'Library', href: '/library', current: location.pathname === '/library' },
     { name: 'Playlists', href: '/playlist', current: location.pathname === '/playlist' },
   ];
 
   return (
-    <header className="bg-black/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-50">
+    <header className="bg-black/95 backdrop-blur-xl border-b border-white/10 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo and Brand */}
-          <div className="flex items-center space-x-4">
-            <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-              <ModernLogo className="w-8 h-8" />
-              <span className="text-xl font-bold text-white">NYONKS MUSIC</span>
-            </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Navigation - moved left to account for logo */}
+          <nav className="hidden md:flex items-center space-x-8 ml-24">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -66,6 +58,12 @@ const ModernHeader = () => {
             </button>
             
             <div className="hidden md:flex items-center space-x-3">
+              <Link
+                to="/premium"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-2 rounded-full hover:from-yellow-500 hover:to-orange-600 transition-all text-sm font-bold"
+              >
+                Premium
+              </Link>
               <Link
                 to="/register"
                 className="text-gray-300 hover:text-white transition-colors text-sm font-medium"
@@ -132,6 +130,13 @@ const ModernHeader = () => {
 
               {/* Mobile Auth Links */}
               <div className="pt-4 space-y-2">
+                <Link
+                  to="/premium"
+                  className="block px-3 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black rounded-lg hover:from-yellow-500 hover:to-orange-600 transition-all text-center font-bold"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Premium
+                </Link>
                 <Link
                   to="/register"
                   className="block px-3 py-2 text-gray-300 hover:text-white transition-colors"
