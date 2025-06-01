@@ -1,12 +1,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Music, User, Mail, Lock } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, User, Mail, Lock } from 'lucide-react';
 import { gsap } from 'gsap';
+import ModernLogo from '../components/ModernLogo';
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -15,6 +17,7 @@ const Register = () => {
   });
   const containerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (containerRef.current && formRef.current) {
@@ -29,13 +32,29 @@ const Register = () => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (formData.password !== formData.confirmPassword) {
-      alert('密码不匹配');
+      alert('Passwords do not match');
       return;
     }
-    console.log('Register attempt:', formData);
+
+    setIsLoading(true);
+    
+    try {
+      console.log('Register attempt:', formData);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // On successful registration, redirect to login
+      navigate('/login');
+    } catch (error) {
+      console.error('Registration failed:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,18 +73,18 @@ const Register = () => {
     <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 flex items-center justify-center p-4">
       <div className="absolute inset-0" style={backgroundStyle}></div>
       
-      <div ref={formRef} className="bg-black/20 backdrop-blur-xl rounded-2xl p-8 w-full max-w-md border border-white/10">
+      <div ref={formRef} className="bg-black/20 backdrop-blur-xl rounded-2xl p-8 w-full max-w-md border border-white/10 shadow-2xl">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <Music className="w-8 h-8 text-pink-400 mr-2" />
+            <ModernLogo className="w-10 h-10 mr-3" />
             <h1 className="text-2xl font-bold text-white">NYONKS MUSIC</h1>
           </div>
-          <p className="text-gray-300">创建您的音乐账户</p>
+          <p className="text-gray-300">Create your music account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-gray-300 mb-2">用户名</label>
+            <label className="block text-gray-300 mb-2 font-medium">Username</label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -73,15 +92,16 @@ const Register = () => {
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 transition-colors"
-                placeholder="输入用户名"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all"
+                placeholder="Enter username"
                 required
+                disabled={isLoading}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-gray-300 mb-2">邮箱地址</label>
+            <label className="block text-gray-300 mb-2 font-medium">Email Address</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -89,15 +109,16 @@ const Register = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 transition-colors"
-                placeholder="输入您的邮箱"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all"
+                placeholder="Enter your email"
                 required
+                disabled={isLoading}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-gray-300 mb-2">密码</label>
+            <label className="block text-gray-300 mb-2 font-medium">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -105,14 +126,16 @@ const Register = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 transition-colors"
-                placeholder="输入密码"
+                className="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all"
+                placeholder="Enter password"
                 required
+                disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                disabled={isLoading}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -120,7 +143,7 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block text-gray-300 mb-2">确认密码</label>
+            <label className="block text-gray-300 mb-2 font-medium">Confirm Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -128,33 +151,51 @@ const Register = () => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 transition-colors"
-                placeholder="再次输入密码"
+                className="w-full pl-12 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-pink-400 focus:ring-2 focus:ring-pink-400/20 transition-all"
+                placeholder="Confirm password"
                 required
+                disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                disabled={isLoading}
               >
                 {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
           </div>
 
+          <div className="flex items-center">
+            <input 
+              id="terms" 
+              type="checkbox" 
+              className="w-4 h-4 text-pink-600 bg-white/10 border-white/20 rounded focus:ring-pink-500" 
+              required 
+            />
+            <label htmlFor="terms" className="ml-2 text-sm text-gray-300">
+              I agree to the{' '}
+              <Link to="/terms" className="text-pink-400 hover:text-pink-300">Terms of Service</Link>
+              {' '}and{' '}
+              <Link to="/privacy" className="text-pink-400 hover:text-pink-300">Privacy Policy</Link>
+            </label>
+          </div>
+
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-pink-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-pink-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:transform-none"
           >
-            注册账户
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
         <div className="text-center mt-6">
           <p className="text-gray-300">
-            已有账户？{' '}
-            <Link to="/login" className="text-pink-400 hover:text-pink-300 transition-colors">
-              立即登录
+            Already have an account?{' '}
+            <Link to="/login" className="text-pink-400 hover:text-pink-300 transition-colors font-medium">
+              Sign in now
             </Link>
           </p>
         </div>

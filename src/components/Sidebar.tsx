@@ -1,11 +1,14 @@
 
-import React, { useEffect, useRef } from 'react';
-import { Home, Search, Library, Heart, Plus, Music } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Home, Search, Library, Heart, Plus, Music, ChevronDown, ChevronRight } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { gsap } from 'gsap';
+import ModernLogo from './ModernLogo';
 
 const Sidebar = () => {
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showLibrary, setShowLibrary] = useState(true);
 
   useEffect(() => {
     if (sidebarRef.current) {
@@ -23,77 +26,132 @@ const Sidebar = () => {
   ];
 
   const libraryItems = [
-    { icon: Heart, label: 'Liked Songs', path: '/liked' },
+    { icon: Heart, label: 'Liked Songs', path: '/liked', count: '247' },
     { icon: Plus, label: 'Create Playlist', path: '/create' },
   ];
 
+  const recentPlaylists = [
+    'My Favorites Mix',
+    'Chill Vibes',
+    'Workout Energy',
+    'Late Night Jazz',
+    'Focus & Study'
+  ];
+
   return (
-    <div ref={sidebarRef} className="w-64 bg-black h-screen flex flex-col">
+    <div 
+      ref={sidebarRef} 
+      className={`${isCollapsed ? 'w-20' : 'w-80'} bg-black h-screen flex flex-col transition-all duration-300 border-r border-white/10`}
+    >
       {/* Logo */}
-      <div className="p-6">
-        <div className="flex items-center space-x-2">
-          <Music className="w-8 h-8 text-spotify-green" />
-          <span className="text-2xl font-bold text-white">NYONKS</span>
+      <div className="p-6 border-b border-white/10">
+        <div className="flex items-center space-x-3">
+          <ModernLogo className="w-8 h-8" />
+          {!isCollapsed && (
+            <span className="text-xl font-bold text-white">NYONKS</span>
+          )}
         </div>
       </div>
 
       {/* Main Navigation */}
-      <nav className="px-6 space-y-2">
+      <nav className="px-4 py-6 space-y-2">
         {menuItems.map((item, index) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `flex items-center space-x-4 p-3 rounded-md transition-colors duration-200 ${
+              `flex items-center space-x-4 p-3 rounded-lg transition-all duration-200 group ${
                 isActive
-                  ? 'bg-zinc-800 text-white'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
+                  ? 'bg-white/10 text-white shadow-lg'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/5'
               }`
             }
           >
-            <item.icon className="w-5 h-5" />
-            <span className="font-medium">{item.label}</span>
+            <item.icon className="w-6 h-6 flex-shrink-0" />
+            {!isCollapsed && (
+              <span className="font-medium">{item.label}</span>
+            )}
           </NavLink>
         ))}
       </nav>
 
       {/* Library Section */}
-      <div className="mt-8 px-6">
-        <h3 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-4">
-          Your Library
-        </h3>
-        <div className="space-y-2">
-          {libraryItems.map((item, index) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center space-x-4 p-3 rounded-md transition-colors duration-200 ${
-                  isActive
-                    ? 'bg-zinc-800 text-white'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-900'
-                }`
-              }
+      {!isCollapsed && (
+        <div className="px-4 flex-1 overflow-y-auto">
+          <div className="mb-4">
+            <button
+              onClick={() => setShowLibrary(!showLibrary)}
+              className="flex items-center justify-between w-full text-zinc-400 hover:text-white transition-colors p-2"
             >
-              <item.icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
-            </NavLink>
-          ))}
-        </div>
-      </div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider">
+                Your Library
+              </h3>
+              {showLibrary ? (
+                <ChevronDown className="w-4 h-4" />
+              ) : (
+                <ChevronRight className="w-4 h-4" />
+              )}
+            </button>
+          </div>
 
-      {/* Recently Played Playlists */}
-      <div className="mt-8 px-6 flex-1 overflow-y-auto">
-        <div className="space-y-2">
-          {['My Playlist #1', 'Chill Vibes', 'Workout Mix', 'Late Night', 'Focus Music'].map((playlist, index) => (
-            <div
-              key={playlist}
-              className="text-zinc-400 hover:text-white cursor-pointer p-2 rounded-md hover:bg-zinc-900 transition-colors duration-200"
-            >
-              {playlist}
+          {showLibrary && (
+            <div className="space-y-2 mb-6">
+              {libraryItems.map((item, index) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between p-3 rounded-lg transition-all duration-200 group ${
+                      isActive
+                        ? 'bg-white/10 text-white'
+                        : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                    }`
+                  }
+                >
+                  <div className="flex items-center space-x-3">
+                    <item.icon className="w-5 h-5" />
+                    <span className="font-medium text-sm">{item.label}</span>
+                  </div>
+                  {item.count && (
+                    <span className="text-xs bg-white/10 px-2 py-1 rounded-full">
+                      {item.count}
+                    </span>
+                  )}
+                </NavLink>
+              ))}
             </div>
-          ))}
+          )}
+
+          {/* Recent Playlists */}
+          <div className="space-y-1">
+            <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 px-2">
+              Recently Played
+            </h4>
+            {recentPlaylists.map((playlist, index) => (
+              <div
+                key={playlist}
+                className="text-zinc-400 hover:text-white cursor-pointer p-2 rounded-lg hover:bg-white/5 transition-all duration-200 text-sm"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md flex items-center justify-center flex-shrink-0">
+                    <Music className="w-4 h-4 text-white" />
+                  </div>
+                  <span className="truncate">{playlist}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+      )}
+
+      {/* Collapse Toggle */}
+      <div className="p-4 border-t border-white/10">
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="w-full text-zinc-400 hover:text-white transition-colors text-sm"
+        >
+          {isCollapsed ? '→' : '←'} {!isCollapsed && 'Collapse'}
+        </button>
       </div>
     </div>
   );
