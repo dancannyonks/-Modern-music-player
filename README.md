@@ -1,5 +1,5 @@
 
-# NYONKS MUSIC - Modern Music Streaming Platform
+# NYONKS MUSIC - Modern Music Player Platform
 
 A modern, responsive music streaming platform built with React, TypeScript, and Supabase.
 
