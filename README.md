@@ -2,6 +2,9 @@
 # NYONKS MUSIC - Modern Music Player Platform
 
 A modern, responsive music streaming platform built with React, TypeScript, and Supabase.
+## 📸 Screenshot
+
+![App Screenshot](public/Screenshot_20250602_024356.png)
 
 ## Features
 
