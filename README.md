@@ -357,17 +357,40 @@ The admin dashboard (`/admin`) includes:
 
 **Admin Login**: Use `nyonks254@gmail.com` with the password you set during registration.
 
-## Contributing
+## 👨‍💻 About the Creator
+
+**Dancan Nyongesa** - Full-stack developer specializing in real-time applications and location services.
+
+### Support the Project
+If you find PingTrail helpful for your business:
+
+**PayPal**: dan0703778685gmail.com
+
+Your support helps maintain and improve this open-source platform template. Thank you! 🙏
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
 4. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
-
 ## Support
 
 For support and questions, please open an issue in the GitHub repository.
+╔════════════════════════════════════════════════════════════════════╗
+║                          Apache License                            ║
+║                       Version 2.0, January 2004                    ║
+║                  https://www.apache.org/licenses/LICENSE-2.0      ║
+╚════════════════════════════════════════════════════════════════════╝
+
+Copyright © 2025 Abi
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at:
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
